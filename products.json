@@ -1,1 +1,30 @@
-[]
+async function addProduct() {
+    const name = document.getElementById("newName").value;
+    const desc = document.getElementById("newDesc").value;
+    const price = parseFloat(document.getElementById("newPrice").value);
+    const files = document.getElementById("newImages").files;
+
+    if (!name || !price) return alert("Name and Price required");
+
+    const images = [];
+
+    for (let i = 0; i < files.length; i++) {
+        images.push(await fileToBase64(files[i]));
+    }
+
+    const { data, error } = await supabase.from('products').insert([{ name, description: desc, price, images }]);
+    if (error) console.error(error);
+    else {
+        alert("Product added live!");
+        fetchProducts();
+    }
+}
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
