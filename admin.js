@@ -1,17 +1,14 @@
-let products = [];
-
 document.addEventListener("DOMContentLoaded", () => {
-
     const addBtn = document.getElementById("addProductBtn");
-    addBtn.addEventListener("click", async function(){
 
+    addBtn.addEventListener("click", async function() {
         const name = document.getElementById('newName').value.trim();
         const desc = document.getElementById('newDesc').value.trim();
         const price = document.getElementById('newPrice').value.trim();
         const images = document.getElementById('newImage').files;
 
-        if(!name || !desc || !price || images.length === 0){
-            alert("Please fill all fields and select images");
+        if(!name || !desc || !price || images.length===0){
+            alert("Fill all fields and select images");
             return;
         }
 
@@ -26,29 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         db.collection("products").add({
-            name: name,
-            desc: desc,
-            price: price,
-            images: imgUrls
-        })
-        .then(()=>{
-            alert("Product added successfully!");
-            loadProductsFromFirebase();
+            name, desc, price, images: imgUrls
+        }).then(()=>{
+            alert("Product added!");
+            loadProducts();
             document.getElementById('newName').value="";
             document.getElementById('newDesc').value="";
             document.getElementById('newPrice').value="";
             document.getElementById('newImage').value="";
-        })
-        .catch(err => console.error(err));
+        }).catch(err => console.error(err));
     });
 
-    loadProductsFromFirebase();
+    loadProducts();
 });
 
-function loadProductsFromFirebase(){
+function loadProducts(){
     db.collection("products").get().then(snapshot => {
-        products=[];
-        snapshot.forEach(doc=>products.push({id: doc.id, ...doc.data()}));
+        const products = [];
+        snapshot.forEach(doc => products.push({id: doc.id, ...doc.data()}));
         displayProducts(products);
     });
 }
@@ -56,7 +48,7 @@ function loadProductsFromFirebase(){
 function displayProducts(list){
     const grid = document.getElementById("productGrid");
     grid.innerHTML = "";
-    list.forEach((product)=>{
+    list.forEach(product => {
         let imgsHtml = product.images.map(img=>`<img src="${img}" width="100">`).join("");
         grid.innerHTML += `
             <div class="product-card">
@@ -71,7 +63,5 @@ function displayProducts(list){
 }
 
 function deleteProduct(id){
-    db.collection("products").doc(id).delete().then(()=>{
-        loadProductsFromFirebase();
-    });
+    db.collection("products").doc(id).delete().then(loadProducts);
 }
