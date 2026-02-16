@@ -1,67 +1,35 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const addBtn = document.getElementById("addProductBtn");
+let products = []; // in-memory array
 
-    addBtn.addEventListener("click", async function() {
-        const name = document.getElementById('newName').value.trim();
-        const desc = document.getElementById('newDesc').value.trim();
-        const price = document.getElementById('newPrice').value.trim();
-        const images = document.getElementById('newImage').files;
+function addProduct() {
+    const name = document.getElementById("newName").value;
+    const desc = document.getElementById("newDesc").value;
+    const price = document.getElementById("newPrice").value;
+    const files = document.getElementById("newImages").files;
 
-        if(!name || !desc || !price || images.length===0){
-            alert("Fill all fields and select images");
-            return;
+    if (!name || !price) return alert("Name and Price required");
+
+    const product = { name, desc, price, images: [] };
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            product.images.push(e.target.result);
+            if (product.images.length === files.length) {
+                products.push(product);
+                renderProducts();
+                alert("Product added (for permanence, manually update products.json in repo)");
+            }
         }
-
-        let imgUrls = [];
-
-        for(let i=0;i<images.length;i++){
-            const file = images[i];
-            const storageRef = storage.ref().child(`products/${Date.now()}_${file.name}`);
-            await storageRef.put(file);
-            const url = await storageRef.getDownloadURL();
-            imgUrls.push(url);
-        }
-
-        db.collection("products").add({
-            name, desc, price, images: imgUrls
-        }).then(()=>{
-            alert("Product added!");
-            loadProducts();
-            document.getElementById('newName').value="";
-            document.getElementById('newDesc').value="";
-            document.getElementById('newPrice').value="";
-            document.getElementById('newImage').value="";
-        }).catch(err => console.error(err));
-    });
-
-    loadProducts();
-});
-
-function loadProducts(){
-    db.collection("products").get().then(snapshot => {
-        const products = [];
-        snapshot.forEach(doc => products.push({id: doc.id, ...doc.data()}));
-        displayProducts(products);
-    });
+        reader.readAsDataURL(files[i]);
+    }
 }
 
-function displayProducts(list){
-    const grid = document.getElementById("productGrid");
-    grid.innerHTML = "";
-    list.forEach(product => {
-        let imgsHtml = product.images.map(img=>`<img src="${img}" width="100">`).join("");
-        grid.innerHTML += `
-            <div class="product-card">
-                ${imgsHtml}
-                <h3>${product.name}</h3>
-                <p>${product.desc}</p>
-                <p>₹${product.price}</p>
-                <button onclick="deleteProduct('${product.id}')">Delete</button>
-            </div>
-        `;
+function renderProducts() {
+    const list = document.getElementById("productList");
+    list.innerHTML = "";
+    products.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<h3>${p.name}</h3><p>${p.desc}</p><p>${p.price}</p>`;
+        list.appendChild(div);
     });
-}
-
-function deleteProduct(id){
-    db.collection("products").doc(id).delete().then(loadProducts);
 }
