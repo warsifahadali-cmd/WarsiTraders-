@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warsi Traders - Products</title>
+    <style>
+        body {font-family: Arial; padding: 20px;}
+        .product-card {border:1px solid #ccc; padding:10px; margin:10px; display:inline-block;}
+        img {border-radius:5px; margin:5px;}
+    </style>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+</head>
+<body>
+<h2>Our Products</h2>
+<div id="productGrid"></div>
+
+<script>
+    // Firebase config same as admin
+    const firebaseConfig = {
+        apiKey: "AIzaSyXXXXXXX",
+        authDomain: "mywebsite-e4095.firebaseapp.com",
+        projectId: "mywebsite-e4095",
+        storageBucket: "mywebsite-e4095.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456789:web:abcdefg"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+</script>
+
+<script src="public.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warsi Traders Admin Panel</title>
+<style>
+  body {font-family: Arial; padding: 20px; background: #3e2723; color: white;}
+  input, textarea {width: 90%; margin: 5px 0; padding: 5px;}
+  button {padding: 5px 10px; margin: 5px 0; cursor: pointer;}
+  .product-card {border:1px solid white; padding:10px; margin:10px;}
+  img {border-radius:5px; margin:5px;}
+</style>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+
+<script>
+  // Firebase config - apna project ka config yahan paste karo
+  const firebaseConfig = {
+    apiKey: "AIzaSyXXXXXXX",
+    authDomain: "mywebsite-e4095.firebaseapp.com",
+    projectId: "mywebsite-e4095",
+    storageBucket: "mywebsite-e4095.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdefg"
+  };
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+</script>
+</head>
+<body>
+
+<h2>Admin Dashboard - Warsi Traders</h2>
+
+<input id="newName" placeholder="Product Name"><br>
+<textarea id="newDesc" placeholder="Product Description"></textarea><br>
+<input id="newPrice" placeholder="Price"><br>
+<input type="file" id="newImage" multiple accept="image/*"><br>
+<button id="addProductBtn">Add Product</button>
+
+<hr>
+
+<h3>Product List</h3>
+<div id="productGrid"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>
