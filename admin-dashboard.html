@@ -48,5 +48,18 @@
 <div id="productGrid"></div>
 
 <script src="admin.js"></script>
+  <script>
+  const firebaseConfig = {
+    apiKey: "tumhara_apiKey",
+    authDomain: "tumhara_project.firebaseapp.com",
+    projectId: "tumhara_project",
+    storageBucket: "tumhara_project.appspot.com",
+    messagingSenderId: "tumhara_messagingSenderId",
+    appId: "tumhara_appId"
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+  </script>
 </body>
 </html>
