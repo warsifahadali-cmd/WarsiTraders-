@@ -1,6 +1,6 @@
 // ---------------- Supabase Setup ----------------
-const SUPABASE_URL = 'https://warsitraders-abc123.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_yvScnTpdW5GyRRDKU_e6cA_Tbm8lNfU';
+const SUPABASE_URL = 'https://kzjjmfvsjukbdhzewbwb.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_gvgEIJWkRM8O329u3jH9Zw_RmgRT9TT';
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ---------------- Global Products Array ----------------
